@@ -1,0 +1,11 @@
+bin_PROGRAMS += _casmutils-nearest-neighbors-distance
+
+_casmutils_nearest_neighbors_distance_SOURCES=\
+						  utilities/nearest_neighbors_distance/nearest_neighbors_distance.cpp
+
+
+_casmutils_nearest_neighbors_distance_LDADD=\
+						libcasmutils.la\
+						$(BOOST_SYSTEM_LIB)\
+						$(BOOST_FILESYSTEM_LIB)\
+						$(BOOST_PROGRAM_OPTIONS_LIB)
