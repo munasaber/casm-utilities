@@ -7,7 +7,6 @@ std::vector<std::vector<std::pair<CASM::Site,double>>> find_nearest_neighbors( c
     // The periodic shifts of the unit cell will be stored here
     CASM::Coordinate shift_value(lattice);
 
-   int min_dist_ind=0;
    // This should be read in from user input
    // dim stores a maximum range of the periodic boundary we
    // wish to explore
@@ -15,7 +14,6 @@ std::vector<std::vector<std::pair<CASM::Site,double>>> find_nearest_neighbors( c
         // loop over each central site
        for(int i = 0; i < struc.basis.size(); i++) {
                CASM::Site tatom(struc.basis[i]);
-               CASM::Site tatomi(struc.basis[i]);
          //get distance to closest basis site in the unit cell at the origin
    // this is a container holding the sites within max radius of site i
   std::vector<std::pair<CASM::Site,double>> neighbors_and_dists;
