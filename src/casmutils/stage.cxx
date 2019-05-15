@@ -7,12 +7,23 @@
 #include "casmutils/lattice.hpp"
 #include <casm/crystallography/Niggli.hh>
 
-namespace Simplicity
-{
-    void trivial_muna_function()
-    {
-        std::cout<<"Nice haircut"<<std::endl;
-        return;
-    }
 
-} // namespace SuperBoxy
+
+//how do we find out what's in the namespace of Simplicity again
+//Namespace 
+//int main()
+//{
+//void returnCART()
+//{
+//std::cout<<"Nice haircut"<<std::endl;
+//return;
+//}
+
+   
+  // double repeatedsites(x, y, z)
+   //{
+	   //grab inputs and do transformation, call actual function in stage.cpp?
+	   //I'm really not sure what this things for, but I think its just to declare the simplicity    namespace (and possibly other namespaces?)
+   //}
+
+//} // namespace SuperBoxy
