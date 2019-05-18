@@ -39,11 +39,34 @@ void factor_group_initializer(po::options_description& factor_group_desc)
 
 } // namespace Utilities
 
-// Is adding to the namespace okay?
+
 using namespace Utilities;
 
+//get sites
 CASM::Coordinate extract_site_somehow();
+
+//check whether or not the site with applied symmetry group is repeated when the site has other factor groups applied
 bool already_contains(const std::vector<CASM::Coordinate>& running_list, const CASM::Coordinate& candidate);
+{
+     int k=0;
+     for(int i=0, i< running_list.size(); i++) 
+     {
+     	     if (running_list[i]==candidate)
+	     {
+		   k=k+1;
+		     // return true
+	     }		    
+	     
+      }	     
+     if (k>=1)
+     {
+	     return true;
+     }
+     else 
+	     return false;
+
+	     
+}
 
 int main(int argc, char* argv[])
 {
