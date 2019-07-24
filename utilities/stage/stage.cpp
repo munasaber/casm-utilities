@@ -125,6 +125,7 @@ int main(int argc, char* argv[])
    
     // find factor group of structure
     CASM::MasterSymGroup factor_group = struc.factor_group();
+//    std::cout<<factor_group<<endl;
     std::vector<CASM::Coordinate> final_coords;
     std::cout<<"The size of the factor group is "<<factor_group.size();
     // Apply each factor group operation on the user provided site, and store transformed
@@ -147,4 +148,42 @@ int main(int argc, char* argv[])
     final_coords[j].print(std::cout, CASM::FRAC); 
     std::cout<<std::endl;
   }
+
+
+
+  //Additionally aspects that tells space group of material? That's not trivial is it?
+  //Anton wanted something else but I forgot what it was. 
+  //Additional option! Input site and test if the same (or some) atom is on equivalently symmetric sites(maybe not even input...). If so, maybe break down unit cell into all atoms that are unique? 
+     //plan
+     //Take POSCAR coords from first coords.
+     //Apply symmetry operations (we should know factor_group from previous thing)
+     //Test generated coords against real coords. Go through the entire thing
+     //test if number of real coords that match symmetric coords=< generated coords 
+     //Generate new POSCAR with same lattice sizes
+             //From new POSCAR/coords (iterate over coords)
+	     //final_coords.emplace(original lattice)
+	     //if generated coord==real coord (outside of original) final_coords.erase(tmp)
+	     //
+    for (int j=0; j< factor_group.size(); j++)
+    {
+	   for (int i=0; i<site_coords.size(); ++i)
+	   {
+	     auto tmp =site[i]
+             tmp.apply_sym(aj] 
+	     if (!already_contains(final_coords, tmp))   //new function? I'm a bit confused...
+	     {
+	       if (!symmetric_equivalent(final_coords, tmp)  //type out symeetric equivalent
+	       {
+                  final_coords.push_back(tmp)
+		}
+	    
+	   //maybe need two if statements. One to make sure no repeats, other to ensure symmetric equivlance?
+            }
+    }
+	    
+   //Print out final coordinates into a POSCAR... should this be a seperate function or does it always do it simultaneously? 
+	    
+               //these for loops should be switched...
+
+
 }
