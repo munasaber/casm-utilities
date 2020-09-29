@@ -12,6 +12,7 @@
 #include "CLI/App.hpp"
 #include "CLI/Formatter.hpp"
 #include "CLI/Config.hpp"
+#include "interstitial_mesh.cpp"
 
 int main(int argc, char* argv[]) { 
 	CLI::App app{"This app takes in either a coordinate or the dimensions of a mesh and outputs equivalent orbits"};
