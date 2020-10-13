@@ -1,8 +1,9 @@
 bin_PROGRAMS += _casmutils-stage
 
 _casmutils_stage_SOURCES=\
-						  src/stage/stage.cpp
-
+					          src/stage/vectorfunctions.cpp\
+						  src/stage/interstitial_mesh.cpp\
+					          src/stage/stage.cpp
 
 _casmutils_stage_LDADD=\
 						libcasmutils.la
