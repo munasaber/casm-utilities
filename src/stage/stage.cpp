@@ -32,30 +32,37 @@ void print_out_poscar_from_user_specified_coordinated(Eigen::Vector3d coordinate
 	casmutils::xtal::write_poscar(output_structure, outpath);	
 }
 
-//void print_orbits_for_specific_mesh_dimensions(casmutils::fs::path structurepath, int in_a, int in_b, int in_c, double radius, std::string interstitialtype, double tol, casmutils::fs::path outpath)
+//void print_orbits_for_specific_mesh_dimensions(casmutils::fs::path structurepath, int int_a, int int_b, int int_c, std::vector<double> radius, std::vector<std::string> atomtype, std::string interstitialtype, double tol, casmutils::fs::path outpath)
 //{
 //	auto original_structure=casmutils::xtal::Structure::from_poscar(structurepath);
 //	std::vector<casmutils::xtal::Site> structure_basis_sites=original_structure.basis_sites();
 //	casmutils::xtal::Lattice lattice=original_structure.lattice();
 //	std::vector<Eigen::Vector3d> grid_dimensions=make_grid_points(int_a, int_b, int_c, lattice);
 //	std::vector<Eigen::Vector3d> coordinate_removal_list;
-//        std::vector<Eigen::Vector3d> original_structure_eigen_coordinates;
-//	for (const auto& site : structure_basis_sites)
+//	std::vector<std::vector<Eigen::Vector3d>> original_structure_eigen_coordinates;
+//	for (int i=0; i<atomtype.size(); i++)
 //	{
-//		original_structure_eigen_coordinates.emplace_back(site.cart());
-//	}
-//	for (const Eigen::Vector3d& original_atom_site : original_structure_eigen_coordinates)
-//	{
-//		std::vector<Eigen::Vector3d> interstitials_to_remove_per_radius=find_interstitials_within_radius(original_gridpoints, original_atom_site, radius, lattice);	
-//		//do within radius for all atoms then compare within radius atoms to all atoms
-//		for (const Eigen::Vector3d& removal_atom: interstitials_to_remove_per_radius)
+//		for (const auto& site : structure_basis_sites)
 //		{
-//			VectorPeriodicCompare_f test_coord(removal_atom, tol, lattice);
-//			//VectorPeriodicCompare_f test_coord(removal_atom, tol);
-//			if(std::find_if(original_gridpoints.begin(), original_gridpoints.end(), test_coord)!=original_gridpoints.end())
+//			if (site.label()==atomtype[i])
+//				original_structure_eigen_coordinates[i].emplace_back(site.cart());
+//		}	
+//	}
+//	for (int i=0; i<radius.size(); i++)
+//	{
+//		for (const Eigen::Vector3d& original_atom_site : original_structure_eigen_coordinates[i])
+//		{
+//			std::vector<Eigen::Vector3d> interstitials_to_remove_per_radius=find_interstitials_within_radius(original_gridpoints, original_atom_site, radius[i], lattice);	
+//			//do within radius for all atoms then compare within radius atoms to all atoms
+//			for (const Eigen::Vector3d& removal_atom: interstitials_to_remove_per_radius)
 //			{
-//				coordinate_removal_list.push_back(removal_atom);
+//				VectorPeriodicCompare_f test_coord(removal_atom, tol, lattice);
+//				//VectorPeriodicCompare_f test_coord(removal_atom, tol);
+//				if(std::find_if(original_gridpoints.begin(), original_gridpoints.end(), test_coord)!=original_gridpoints.end())
+//				{
+//					coordinate_removal_list.push_back(removal_atom);
 //			
+//				}
 //			}
 //		}
 //	}
@@ -76,7 +83,8 @@ int main(int argc, char* argv[]) {
 	std::vector<double> coordinate;
 	CLI::Option* coordinate_path= app.add_option("-c, --coordinate", coordinate, "Please input a sinlge point that you would like to find the orbit of within the structure");
 	std::string interstitialtype;
-	CLI::Option* interstitialtype_path= app.add_option("-i, --interstitialtype", interstitialtype, "Please put the names of the different atoms in the structure") -> allow_extra_args(true);
+	CLI::Option* interstitialtype_path= app.add_option("-i, --interstitialtype", interstitialtype, "Please put the names of the different atoms in the structure");
+	
 	std::vector<std::string> atomtype;
 	CLI::Option* atomtype_path= app.add_option("-a, --atomtype", atomtype, "Please put the names of the different atoms in the structure") -> allow_extra_args(true);
 	std::vector<double> distances;
