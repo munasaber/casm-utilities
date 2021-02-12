@@ -1,7 +1,8 @@
-include $(srcdir)/plugins/cluster_finder/CLI/Makemodule.am
 include $(srcdir)/plugins/cluster_finder/lib/Makemodule.am
 include $(srcdir)/plugins/cluster_finder/tests/Makemodule.am
+include $(srcdir)/plugins/cluster_finder/CLI/Makemodule.am
 
 if CASMUTILS_LIBRARY
 include $(srcdir)/plugins/cluster_finder/include/Makemodule.am
 endif
+
