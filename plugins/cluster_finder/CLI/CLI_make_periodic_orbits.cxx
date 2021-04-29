@@ -24,7 +24,7 @@ std::vector<int> get_orbit_labels(casmutils::fs::path& jsonpath)
 {
 	std::ifstream ifs(jsonpath);
 	json j = json::parse(ifs);
-	return j.at("orbit_labels");
+	return j.at("orbit_branch_specs");
 }
 
 
@@ -119,23 +119,37 @@ int main(int argc, char* argv[]) {
 	
 	//Tag for the user input for the structures path
         casmutils::fs::path structurepath;
-	CLI::Option* structure_path=app.add_option("-s, --structure", structurepath, "Please input the file path of the base structure")-> required();
+	CLI::Option* structure_option=app.add_option("-s, --structure", structurepath, "Please input the file path of the base structure");
         
 	//Tag for maximum cutoff radius for sites to be included into the cluster
 	std::vector<double>  maxlengths;
-	app.add_option("-m, --max_length", maxlengths, "Select the maximum cutoff radius for sites to be included in a given cluster. Higher order clusters must either have a smaller or same size radius as lower order clusters.");
+	CLI::Option* length_option=app.add_option("-m, --max_length", maxlengths, "Select the maximum cutoff radius for sites to be included in a given cluster. Higher order clusters must either have a smaller or same size radius as lower order clusters.");
 	
 	//Tag for the user input of .json file path
 	casmutils::fs::path jsonpath;
-	app.add_option("-j, --json_path", jsonpath, "Please input the path to the input json file")-> required();
+	CLI::Option* json_option=app.add_option("-j, --json_path", jsonpath, "Please input the path to the input json file");
 		
 	//Tag for the path to the output file (This is not required so otherwise the file will be output to the screen)
 	casmutils::fs::path outputpath;
 	CLI::Option* output_option=app.add_option("-o, --output", outputpath, "Please input the path to the output file. If this option is not used, the cluster data will be printed to the screen"); 
+        CLI::Option* desc_option=app.add_flag("--desc", "Prints to the screen an explanation for te json format"); 
 
 	CLI11_PARSE(app, argc, argv);
 	
-	
+	if (* desc_option)
+	{
+		std::cout<<"Input json requires an 'orbit_branch_specs' input that gives the size of each cluster type (i.e. branch)"<<std::endl;
+		std::cout<<"Clusters listed in 'orbit_branch_specs' must be consecutive starting from 0 as each branch is dependent on the last"<<std::endl;
+		std::cout<<"A maximum length for each cluster type must be listed with the flag 'max_length'"<<std::endl;
+		std::cout<<"Optionally, selected sites can be ignored in the determination of orbits. To allow for this, use the 'site_filter' tag"<<std::endl;
+		std::cout<<"A sample json file for a cluster up to quadruplet is given below: "<<std::endl;
+		std::cout<<"{"<<std::endl;
+		std::cout<<"     \"orbit_branch_specs\" : [0, 1, 2, 3, 4],"<<std::endl;
+		std::cout<<"     \"max_lengths\" : [5, 5, 5, 5, 5],"<<std::endl;	
+		std::cout<<"     \"site_filter\" : [\"0.00000000\", \"0.00000000\", \"0.00000000\", \"A\"]"<<std::endl;
+		std::cout<<"}"<<std::endl;
+		return 0;	
+	}
 	std::vector<int> orbit_labels=get_orbit_labels(jsonpath);
 	std::vector<double> max_lengths=get_max_lengths(jsonpath);
 	std::vector<casmutils::cluster::Orbit> all_filtered_orbits= make_orbits(jsonpath, structurepath);
@@ -196,7 +210,6 @@ int main(int argc, char* argv[]) {
 
 
 	}
-
 	
 	
 	return 0; 
